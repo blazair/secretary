@@ -1,0 +1,28 @@
+# requirements.txt
+#
+# This project has NO third-party dependencies. Nothing to install.
+#
+#     pip install -r requirements.txt
+#
+# ...will succeed and install nothing. That is correct, not a mistake.
+#
+# Everything it uses ships with Python itself:
+#     tkinter      the window          (stdlib)
+#     json         reading/writing the data files
+#     pathlib      file paths
+#     datetime     dates and times
+#     re           parsing the quick-add line
+#     uuid         task ids
+#     dataclasses  the Task and ScheduledBlock shapes
+#     collections  grouping tasks by category
+#     statistics   the medians used for calibration
+#
+# The only real requirement is the interpreter version, which pip cannot
+# install:
+#
+#     Python >= 3.10      (the code uses "str | None" type hints)
+#
+# On Linux, tkinter is sometimes packaged separately from Python:
+#     Debian/Ubuntu   sudo apt install python3-tk
+#     Fedora          sudo dnf install python3-tkinter
+# On Windows and macOS it is already included.

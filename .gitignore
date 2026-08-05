@@ -1,0 +1,13 @@
+# --- secrets. never commit these ---
+*token*
+*.pem
+*.key
+.env
+
+# Task, note and settings data. Personal, and recreated automatically the
+# first time the app runs.
+data/
+
+# Python
+__pycache__/
+*.pyc
