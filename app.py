@@ -15,6 +15,7 @@ from datetime import timedelta
 
 from flask import Flask, jsonify, request, send_from_directory
 
+import api
 import auth
 import db
 from config import (
@@ -41,6 +42,7 @@ def create_app() -> Flask:
 
     db.register(app)
     app.register_blueprint(auth.blueprint)
+    app.register_blueprint(api.blueprint)
 
     _register_guards(app)
     _register_frontend(app)
