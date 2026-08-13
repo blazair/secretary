@@ -1,0 +1,176 @@
+/* calendar.css
+   The day is one scroll container measured in minutes. Overflow continues
+   below the working day at the same px-per-minute, so minutes that do not
+   fit occupy their real height instead of being listed. */
+
+.calendar { overflow: auto; padding: var(--space-3) var(--space-4) var(--space-5); }
+
+.daybar {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.daybar h2 { margin: 0; font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+.daybar .date { color: var(--ink-faint); }
+
+.nav { display: flex; gap: var(--space-1); margin-left: auto; }
+
+.nav button {
+  padding: 4px 10px;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+}
+
+.nav button:hover { border-color: var(--ink); }
+
+/* ----------------------------------------------------------- the grid --- */
+.grid { position: relative; display: grid; grid-template-columns: var(--gutter) 1fr; }
+
+.hours { position: relative; }
+
+.hour-label {
+  position: absolute;
+  right: var(--space-2);
+  transform: translateY(-50%);
+  color: var(--ink-faint);
+  font-size: var(--step--1);
+}
+
+.columns { position: relative; display: grid; }
+
+.column { position: relative; border-left: 1px solid var(--rule); }
+
+.column-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+.column-head.is-today { color: var(--ink); font-weight: 600; }
+
+.hour-rule { position: absolute; left: 0; right: 0; border-top: 1px solid var(--rule); opacity: 0.55; }
+
+/* ---------------------------------------------------------- the blocks --- */
+.block {
+  position: absolute;
+  left: 2px;
+  right: 4px;
+  padding: 3px 6px;
+  overflow: hidden;
+  border: 1px solid var(--normal);
+  background: var(--normal-fill);
+  cursor: grab;
+  touch-action: none;
+}
+
+.block:active { cursor: grabbing; }
+
+.block[data-energy="deep"]   { border-color: var(--deep);  background: var(--deep-fill); }
+.block[data-energy="normal"] { border-color: var(--normal); background: var(--normal-fill); }
+.block[data-energy="light"]  { border-color: var(--light); background: var(--light-fill); }
+.block[data-kind="break"]    { border-color: var(--break); background: var(--break-fill); cursor: default; }
+.block[data-kind="fixed"]    { border-color: var(--fixed); background: var(--fixed-fill); cursor: default; }
+
+.block-time { font-size: var(--step--1); color: var(--ink-soft); }
+.block-label { font-weight: 500; }
+.block-seq { color: var(--ink-faint); font-size: var(--step--1); }
+
+/* A pinned block was placed by hand, and the planner leaves it alone. */
+.block[data-origin="pinned"] { box-shadow: inset 3px 0 0 var(--ink); }
+
+/* Below the waterline the work is still planned, just beyond the day's
+   measured capacity, so it drains rather than changing hue. */
+.block.is-submerged { opacity: 0.55; }
+
+.block.is-overflow {
+  border-color: var(--overflow);
+  background: var(--overflow-fill);
+  border-style: dashed;
+  cursor: default;
+}
+
+.block.is-dragging { z-index: 5; opacity: 0.9; box-shadow: 0 2px 0 var(--ink); }
+
+.resize-handle {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 7px;
+  cursor: ns-resize;
+}
+
+/* ------------------------------------------------------- the waterline --- */
+.waterline {
+  position: absolute;
+  left: 0; right: 0;
+  z-index: 4;
+  border-top: 1px solid var(--ink);
+  pointer-events: none;
+}
+
+.waterline::after {
+  content: attr(data-label);
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  font-family: var(--font-nums);
+  font-size: var(--step--1);
+  color: var(--ink);
+  background: var(--paper);
+  padding: 0 4px;
+}
+
+.end-of-day {
+  position: absolute;
+  left: 0; right: 0;
+  z-index: 2;
+  border-top: 1px dashed var(--ink-faint);
+  pointer-events: none;
+}
+
+.now-line {
+  position: absolute;
+  left: 0; right: 0;
+  z-index: 4;
+  border-top: 2px solid var(--overflow);
+  pointer-events: none;
+}
+
+.overflow-caption {
+  position: absolute;
+  right: 6px;
+  font-family: var(--font-nums);
+  font-size: var(--step--1);
+  color: var(--overflow);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------- month view --- */
+.month { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--rule); }
+
+.month-cell {
+  background: var(--paper);
+  min-height: 92px;
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.month-cell.is-today { background: var(--card); box-shadow: inset 0 2px 0 var(--ink); }
+.month-day { font-family: var(--font-nums); font-size: var(--step--1); color: var(--ink-soft); }
+
+/* Density as fill height, since no hue is free to encode a ramp. */
+.month-bar { margin-top: auto; height: 46px; display: flex; flex-direction: column; justify-content: flex-end; }
+.month-fill { background: var(--deep); }
+.month-over { background: var(--overflow); }
+.month-load { font-family: var(--font-nums); font-size: var(--step--1); color: var(--ink-faint); }
+
+.is-dragging, .is-dragging * { user-select: none; }

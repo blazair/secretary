@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secretary</title>
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/app.css">
+<link rel="stylesheet" href="/css/calendar.css">
+</head>
+<body>
+
+<!-- Sign in ---------------------------------------------------------------->
+<section class="gate" id="gate">
+  <div class="gate-card">
+    <h1 class="gate-title">Secretary</h1>
+    <p class="gate-line" id="gate-line">
+      A to-do list that builds a calendar from itself, then reports whether the
+      day actually fits.
+    </p>
+
+    <form id="gate-form">
+      <label class="field">
+        <span>Username</span>
+        <input name="username" autocomplete="username" required>
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <label class="field hidden" id="invite-field">
+        <span>Invite code</span>
+        <input name="invite_code" autocomplete="off">
+      </label>
+      <button class="button" type="submit" id="gate-submit">Sign in</button>
+      <p class="gate-error" id="gate-error"></p>
+    </form>
+
+    <div class="gate-swap">
+      <button class="button-quiet" id="gate-swap" type="button">Create an account</button>
+    </div>
+  </div>
+</section>
+
+<!-- The app ---------------------------------------------------------------->
+<div class="app hidden" id="app">
+
+  <header class="header">
+    <span class="wordmark">Secretary</span>
+    <span class="timer is-idle" id="timer">
+      <span id="timer-label"></span>
+      <span class="num" id="timer-elapsed">0:00</span>
+      <button id="timer-stop" type="button">Stop</button>
+    </span>
+    <nav class="views" role="tablist">
+      <button class="view-tab" role="tab" data-view="day" aria-selected="true">Day</button>
+      <button class="view-tab" role="tab" data-view="week" aria-selected="false">Week</button>
+      <button class="view-tab" role="tab" data-view="month" aria-selected="false">Month</button>
+    </nav>
+    <span class="whoami" id="whoami"></span>
+    <button class="button-quiet" id="sign-out" type="button">Sign out</button>
+  </header>
+
+  <section class="compose">
+    <form class="compose-row" id="compose-form">
+      <input id="compose-input" autocomplete="off" spellcheck="false"
+             placeholder="write essay 90m tomorrow #writing !1 ~deep">
+      <button class="button" type="submit">Add</button>
+    </form>
+    <p class="syntax">
+      90m / 2h &middot; today tomorrow fri +3d &middot; at 2pm / 14:00 &middot;
+      #category &middot; !1 !2 !3 &middot; ~light ~normal ~deep &middot; =whole
+    </p>
+  </section>
+
+  <main class="main">
+    <aside class="sidebar">
+      <h2>Tasks</h2>
+      <div id="task-list"></div>
+      <div class="task-actions" id="task-actions">
+        <button data-act="done">Done</button>
+        <button data-act="timer">Start timer</button>
+        <button data-act="defer">Push a day</button>
+        <button data-act="edit">Edit</button>
+        <button data-act="delete">Delete</button>
+        <button data-act="undo">Undo</button>
+      </div>
+    </aside>
+
+    <section class="calendar" id="calendar"></section>
+  </main>
+
+  <footer class="status">
+    <p class="status-line" id="status-line"></p>
+    <p class="status-note" id="status-note"></p>
+  </footer>
+</div>
+
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>
