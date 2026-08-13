@@ -1,0 +1,84 @@
+/* tokens.css
+   Colour encodes data. Nothing here is decorative.
+   --overflow is reserved for minutes that do not fit and appears nowhere else. */
+
+:root {
+  --paper:      #E9ECEF;
+  --paper-deep: #DFE3E8;
+  --card:       #F4F6F8;
+  --ink:        #16181D;
+  --ink-soft:   #4A515C;
+  --ink-faint:  #8A929E;
+  --rule:       #C9CFD7;
+
+  /* Energy levels. */
+  --deep:       #223D6B;
+  --deep-fill:  #C9D6EC;
+  --normal:     #3E7C88;
+  --normal-fill:#CBE4E7;
+  --light:      #97A0AE;
+  --light-fill: #DEE2E8;
+
+  /* Non-work blocks. */
+  --break:      #8A7A4E;
+  --break-fill: #EDE6D0;
+  --fixed:      #5A6169;
+  --fixed-fill: #D6DAE0;
+
+  /* Reserved. Minutes that do not fit, and nothing else. */
+  --overflow:      #C4452C;
+  --overflow-fill: #F0D3CD;
+
+  --font-words: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --font-nums:  "Martian Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --px-per-min: 1.1;
+  --snap-minutes: 5;
+  --gutter: 52px;
+
+  --step--1: 0.75rem;
+  --step-0:  0.875rem;
+  --step-1:  1rem;
+  --step-2:  1.375rem;
+  --step-3:  2rem;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 20px;
+  --space-5: 32px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-words);
+  font-size: var(--step-0);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Every number in the interface shares one voice. */
+.num, time, .duration, .clock {
+  font-family: var(--font-nums);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+button, input, textarea, select { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--deep);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

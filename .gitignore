@@ -1,5 +1,10 @@
 # --- secrets. never commit these ---
-*token*
+# Kept specific: a blanket *token* pattern also swallows frontend/css/tokens.css.
+token.txt
+token*.txt
+*.token
+*_token
+secret_key
 *.pem
 *.key
 .env
