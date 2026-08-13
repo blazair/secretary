@@ -3,11 +3,13 @@
 *.pem
 *.key
 .env
+instance/
 
-# Task, note and settings data. Personal, and recreated automatically the
-# first time the app runs.
+# Task, note and settings data from the old single-user desktop build.
 data/
 
 # Python
+venv/
 __pycache__/
 *.pyc
+.pytest_cache/

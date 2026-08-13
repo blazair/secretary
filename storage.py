@@ -31,22 +31,9 @@ SETTINGS_FILE = DATA_DIRECTORY / "settings.json"
 # ---------------------------------------------------------------------------
 # Defaults, used until settings.json says otherwise
 # ---------------------------------------------------------------------------
-DEFAULT_SETTINGS = {
-    "work_day_starts_at": "09:00",
-    "work_day_ends_at": "18:00",
-    # Deep tasks are placed inside this window before anything else.
-    "deep_work_starts_at": "09:00",
-    "deep_work_ends_at": "12:30",
-    "break_minutes": 10,
-    "minutes_between_breaks": 90,
-    # Blocks the planner must schedule around.
-    "fixed_commitments": [
-        {"label": "Lunch", "start": "13:00", "end": "13:45"},
-    ],
-    # Used until there is enough history to measure the real figure.
-    # See calibration.py.
-    "assumed_daily_capacity_minutes": 300,
-}
+# Kept here as a re-export so existing callers keep working; the values moved
+# to defaults.py when the web app arrived.
+from defaults import DEFAULT_SETTINGS  # noqa: E402,F401
 
 
 def ensure_data_directory() -> None:

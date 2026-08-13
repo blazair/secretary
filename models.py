@@ -74,6 +74,12 @@ class Task:
     times_deferred: int = 0
     note: str = ""
 
+    # Splitting. A task is only ever split when it cannot fit contiguously,
+    # so these stay invisible for anything that fits in one sitting.
+    is_splittable: bool = True
+    min_session_minutes: int = 25
+    max_session_minutes: int | None = None
+
     # -- derived values -----------------------------------------------------
 
     def is_overdue(self, today_iso: str) -> bool:
@@ -115,6 +121,9 @@ class Task:
             "actual_minutes": self.actual_minutes,
             "times_deferred": self.times_deferred,
             "note": self.note,
+            "is_splittable": self.is_splittable,
+            "min_session_minutes": self.min_session_minutes,
+            "max_session_minutes": self.max_session_minutes,
         }
 
     @staticmethod
@@ -136,6 +145,9 @@ class Task:
             actual_minutes=stored.get("actual_minutes"),
             times_deferred=int(stored.get("times_deferred", 0)),
             note=stored.get("note", ""),
+            is_splittable=bool(stored.get("is_splittable", True)),
+            min_session_minutes=int(stored.get("min_session_minutes", 25)),
+            max_session_minutes=stored.get("max_session_minutes"),
         )
 
 
@@ -153,6 +165,7 @@ def create_task(
     due_date: str | None = None,
     scheduled_date: str | None = None,
     start_time: str | None = None,
+    is_splittable: bool = True,
 ) -> Task:
     """The single construction point, so defaults and created_at are always set."""
     return Task(
@@ -165,6 +178,7 @@ def create_task(
         due_date=due_date,
         scheduled_date=scheduled_date,
         start_time=start_time,
+        is_splittable=is_splittable,
         created_at=now_as_text(),
     )
 
@@ -182,6 +196,10 @@ class ScheduledBlock:
     kind: str = BLOCK_KIND_TASK
     task_id: str | None = None
     energy_level: str = ENERGY_NORMAL
+    session_id: int | None = None
+    sequence: int = 1          # this chunk's number, when a task was split
+    of: int = 1                # how many chunks the task was split into
+    origin: str = "auto"       # "pinned" once the user has dragged it
 
     @property
     def duration_minutes(self) -> int:
@@ -201,6 +219,11 @@ class DayPlan:
     planned_task_minutes: int = 0      # minutes that found a slot
     overflow_minutes: int = 0          # minutes that did not fit
     clashes: list[str] = field(default_factory=list)  # double-booked fixed times
+    # Undated tasks that found no room. Distinct from unscheduled_tasks, which
+    # are tasks this day is actually responsible for.
+    backlog: list[Task] = field(default_factory=list)
+    # task_id -> (minutes placed, minutes needed) for anything partly placed.
+    partially_placed: dict[str, tuple[int, int]] = field(default_factory=dict)
 
     @property
     def total_intended_minutes(self) -> int:
